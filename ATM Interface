@@ -1,0 +1,100 @@
+
+package codsofttask2;
+
+import java.util.Scanner;
+
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        balance = initialBalance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposit of $" + amount + " was successful.");
+        } else {
+            System.out.println("Invalid deposit amount. Please enter a positive amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;
+            System.out.println("Withdrawal of $" + amount + " was successful.");
+        } else if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount. Please enter a positive amount.");
+        } else {
+            System.out.println("Insufficient balance. Cannot withdraw $" + amount + ".");
+        }
+    }
+}
+
+class ATM {
+    private BankAccount account;
+
+    public ATM(BankAccount account) {
+        this.account = account;
+    }
+
+    public void displayMenu() {
+        System.out.println("ATM Menu:");
+        System.out.println("1. Check Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Exit");
+    }
+
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+
+        while (isRunning) {
+            displayMenu();
+            System.out.print("Enter your choice (1-4): ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    double balance = account.getBalance();
+                    System.out.println("Your account balance is: $" + balance);
+                    break;
+                case 2:
+                    System.out.print("Enter the amount to deposit: $");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 3:
+                    System.out.print("Enter the amount to withdraw: $");
+                    double withdrawAmount = scanner.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 4:
+                    isRunning = false;
+                    System.out.println("Thank you for using the ATM. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option (1-4).");
+            }
+        }
+    }
+}
+
+
+
+public class Codsofttask2 {
+
+   
+    public static void main(String[] args) {
+        
+        BankAccount userAccount = new BankAccount(1000.0); 
+        ATM atm = new ATM(userAccount);
+        atm.start();
+    }
+    
+}
